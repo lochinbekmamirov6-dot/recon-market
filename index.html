@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#090911">
+<title>RECON MARKET — Liquid Glass</title>
+<style>
+:root{--bg:#090911;--glass:rgba(25,24,43,.72);--line:rgba(255,255,255,.12);--purple:#b16cff;--cyan:#67e8f9;--muted:#9998b1}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:#fff;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding-bottom:110px}
+button,input{font:inherit}
+button{color:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .22s,background .22s,opacity .22s}
+button:active{transform:scale(.95)}
+header{height:72px;position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;padding:0 18px;background:rgba(9,9,17,.72);backdrop-filter:blur(25px) saturate(160%);-webkit-backdrop-filter:blur(25px) saturate(160%);border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:1.7px;font-size:15px}
+.brand-icon{width:39px;height:39px;display:grid;place-items:center;border-radius:13px;background:linear-gradient(135deg,#a855f7,#3b82f6);box-shadow:0 0 25px #8b5cf644;font-size:20px}
+.brand span{color:var(--purple)}
+.mode{background:var(--glass);border:1px solid var(--line);border-radius:12px;padding:10px;font-size:12px}
+main{max-width:1050px;margin:auto;padding:20px 15px}
+.page{display:none;animation:pageIn .38s cubic-bezier(.2,.75,.25,1) both}
+.page.active{display:block}
+@keyframes pageIn{from{opacity:0;transform:translateY(12px) scale(.99);filter:blur(4px)}to{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+@keyframes pulse{0%,100%{opacity:.6}50%{opacity:1}}
+@keyframes tabIn{from{opacity:.5;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.glass{background:linear-gradient(140deg,rgba(255,255,255,.075),rgba(255,255,255,.018));border:1px solid var(--line);backdrop-filter:blur(22px) saturate(150%);-webkit-backdrop-filter:blur(22px) saturate(150%);box-shadow:inset 0 1px rgba(255,255,255,.06),0 12px 40px #0002}
+.hero{position:relative;overflow:hidden;padding:32px 24px;border-radius:28px;background:radial-gradient(ellipse at 95% 10%,#a855f738,transparent 45%),radial-gradient(ellipse at 5% 100%,#0891b230,transparent 40%),linear-gradient(140deg,#1b1231,#0c1122);border:1px solid #b16cff35}
+.eyebrow{color:#c4b5fd;font-size:10px;letter-spacing:2.5px;font-weight:800}
+h1{font-size:clamp(35px,8vw,65px);letter-spacing:-2px;line-height:1.04;margin:18px 0}
+.gradient-text{background:linear-gradient(100deg,#e9d5ff,#a78bfa,#67e8f9);background-clip:text;color:transparent}
+p{line-height:1.65}
+.muted{color:var(--muted);font-size:13px}
+.primary{border:0;border-radius:14px;padding:13px 17px;font-weight:800;background:linear-gradient(115deg,#9333ea,#6366f1,#0891b2);box-shadow:0 5px 25px #8b5cf633}
+.section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:30px 0 18px}
+h2{font-size:23px;margin:8px 0}
+.search{width:100%;padding:15px;border-radius:15px;border:1px solid var(--line);outline:none;background:rgba(255,255,255,.045);color:white}
+.search:focus{border-color:#a855f7}
+.products{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.product{padding:10px;border-radius:22px;animation:pageIn .4s both;min-width:0}
+.product-art{aspect-ratio:1/1;display:grid;place-items:center;border-radius:16px;font-size:60px;background:radial-gradient(ellipse at center,#a855f725,transparent 65%),rgba(7,7,17,.55);overflow:hidden}
+.product small{display:block;color:#c4b5fd;margin-top:13px;font-size:11px}.product h3{font-size:14px;margin:7px 0;line-height:1.4}
+.price{font-size:14px;font-weight:900;color:var(--cyan);margin:10px 0}
+.add{width:100%;padding:11px 5px;border:1px solid #b16cff4d;background:#a855f719;border-radius:12px;font-size:12px;font-weight:750}
+.empty{text-align:center;padding:38px 15px;border-radius:20px}
+.list-item{display:flex;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid var(--line)}
+.list-item:last-child{border:0}
+.item-icon{width:48px;height:48px;display:grid;place-items:center;background:#a855f71a;border-radius:14px;font-size:25px;flex-shrink:0}
+.bottom-nav{position:fixed;z-index:40;bottom:calc(12px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);width:calc(100% - 24px);max-width:540px;padding:7px;display:grid;grid-template-columns:repeat(4,1fr);gap:4px;border-radius:24px;background:rgba(24,22,40,.78);border:1px solid rgba(255,255,255,.17);box-shadow:0 12px 50px #0009,inset 0 1px #ffffff14;backdrop-filter:blur(32px) saturate(180%);-webkit-backdrop-filter:blur(32px) saturate(180%)}
+.nav-item{position:relative;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;border:0;background:transparent;color:#9997b1;border-radius:17px;padding:9px 2px;font-size:10px}
+.nav-icon{font-size:21px;line-height:1.2;transition:transform .25s}
+.nav-item.active{color:white;background:linear-gradient(140deg,#a855f72b,#3b82f626);box-shadow:inset 0 0 0 1px #b16cff30;animation:tabIn .25s}
+.nav-item.active .nav-icon{transform:translateY(-2px);filter:drop-shadow(0 0 7px #b16cff)}
+.dot{position:absolute;top:3px;right:calc(50% - 19px);min-width:16px;height:16px;border-radius:99px;background:#b16cff;color:white;font-size:9px;display:grid;place-items:center}
+.admin-layout{display:grid;grid-template-columns:1fr;gap:15px}
+.admin-menu{display:flex;gap:6px;overflow-x:auto;padding:7px;border-radius:17px}
+.admin-menu button{white-space:nowrap;background:transparent;border:0;border-radius:12px;padding:11px 13px;color:#aaa7c1;font-size:12px}
+.admin-menu button.active{background:#a855f72a;color:#fff}
+.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:20px 0}
+.stat{padding:16px;border-radius:18px;min-width:0}
+.stat strong{display:block;font-size:19px;margin:13px 0 5px;overflow-wrap:anywhere}
+.field{width:100%;max-width:450px;background:#0c0b16;border:1px solid var(--line);padding:13px;border-radius:12px;color:white;margin:8px 0;outline:none}
+.notice{position:fixed;z-index:80;top:85px;left:50%;transform:translateX(-50%);background:rgba(37,25,60,.94);backdrop-filter:blur(20px);border:1px solid #b16cff66;border-radius:15px;padding:13px 18px;white-space:nowrap;max-width:90%;font-size:13px;animation:pageIn .25s}
+@media(min-width:700px){main{padding:32px 24px}.hero{padding:55px}.products{grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.product{padding:14px}.product-art{font-size:80px}.product h3{font-size:16px}.admin-layout{grid-template-columns:1fr}.stats{grid-template-columns:repeat(4,minmax(0,1fr))}body{padding-bottom:115px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<header>
+ <div class="brand"><div class="brand-icon">R</div><div>RECON <span>MARKET</span></div></div>
+ <button class="mode" id="modeButton" onclick="toggleRole()">⚡ Admin demo</button>
+</header>
+
+<main id="customerApp">
+ <section class="page active" id="homePage">
+  <div class="hero">
+   <div class="eyebrow">✦ RECON MARKET / NEW GENERATION</div>
+   <h1>Kelajakni<br><span class="gradient-text">tanlang.</span></h1>
+   <p class="muted">Sevimli mahsulotlaringiz. Yangi imkoniyatlar. Bitta makon.</p>
+   <button class="primary" onclick="goPage('searchPage','search')">Kashf etish ↗</button><div style="position:absolute;right:23px;bottom:15px;font-size:60px;opacity:.24;animation:float 5s infinite">◈</div>
+  </div>
+  <div class="section-head"><div><div class="eyebrow">SIZ UCHUN</div><h2>Trend mahsulotlar</h2></div><span class="muted">RECON SELECT</span></div>
+  <div class="products" id="homeProducts"></div>
+ </section>
+
+ <section class="page" id="searchPage">
+  <div class="eyebrow">DISCOVER / SEARCH</div><h1 style="font-size:39px">Nima <span class="gradient-text">izlaymiz?</span></h1>
+  <input class="search" id="searchInput" placeholder="⌕ Mahsulot nomini yozing..." oninput="renderSearch()">
+  <div class="section-head"><h2>Mahsulotlar</h2><span class="muted" id="resultCount"></span></div>
+  <div class="products" id="searchProducts"></div>
+ </section>
+
+ <section class="page" id="cartPage">
+  <div class="eyebrow">YOUR SELECTION</div><h1 style="font-size:40px">Sizning <span class="gradient-text">savatingiz.</span></h1>
+  <div class="glass" style="padding:18px;border-radius:23px">
+   <div id="cartItems"></div>
+   <div style="border-top:1px solid var(--line);padding-top:18px;margin-top:12px">
+    <div class="muted">Umumiy summa</div><h2 class="gradient-text" id="cartTotal">0 so‘m</h2>
+    <button class="primary" style="width:100%;margin-top:10px" onclick="checkout()">Buyurtmani rasmiylashtirish ↗</button>
+    <p class="muted">Demo: haqiqiy buyurtma va to‘lov tizimi hali ulanmagan.</p>
+   </div>
+  </div>
+ </section>
+
+ <section class="page" id="profilePage">
+  <div class="eyebrow">YOUR SPACE</div><h1 style="font-size:40px">Mening <span class="gradient-text">profilim.</span></h1>
+  <div class="glass" style="border-radius:25px;padding:23px">
+   <div style="display:flex;align-items:center;gap:16px">
+    <div class="brand-icon" style="width:62px;height:62px;font-size:27px">👤</div>
+    <div><h2 style="margin:0">Mehmon</h2><p class="muted" style="margin:6px 0">RECON MARKET foydalanuvchisi</p></div>
+   </div>
+   <div style="margin-top:22px">
+    <div class="list-item"><div class="item-icon">📦</div><div><b>Mening buyurtmalarim</b><div class="muted" id="profileOrders">0 ta demo buyurtma</div></div></div>
+    <div class="list-item"><div class="item-icon">❤️</div><div><b>Sevimlilar</b><div class="muted">Tez orada</div></div></div>
+    <div class="list-item"><div class="item-icon">⚙️</div><div><b>Sozlamalar</b><div class="muted">Profil va ilova sozlamalari</div></div></div>
+   </div>
+   <button class="mode" style="width:100%;margin-top:17px" onclick="notify('Haqiqiy profil tizimi keyingi versiyada ulanadi')">Profilni sozlash</button>
+  </div>
+ </section>
+</main>
+
+<main id="adminApp" style="display:none">
+ <div class="eyebrow">RECON / CONTROL CENTER</div><h1 style="font-size:40px">Admin <span class="gradient-text">panel.</span></h1>
+ <p class="muted">Boshqaruv interfeysi · Demo rejim</p>
+ <div class="stats">
+  <div class="stat glass">◇<strong>6</strong><span class="muted">Demo tovarlar</span></div>
+  <div class="stat glass">▤<strong id="adminOrders">0</strong><span class="muted">Buyurtmalar</span></div>
+  <div class="stat glass">▣<strong id="adminCash">0 so‘m</strong><span class="muted">Kassa</span></div>
+  <div class="stat glass">◷<strong id="adminShift">Yopiq</strong><span class="muted">Smena</span></div>
+ </div>
+ <nav class="admin-menu glass" id="adminMenu">
+  <button class="active" onclick="adminTab('Dashboard',this)">◫ Umumiy</button>
+  <button onclick="adminTab('Smena',this)">◷ Smena</button>
+  <button onclick="adminTab('Kassa',this)">▣ Kassa</button>
+  <button onclick="adminTab('Tovarlar',this)">◇ Tovarlar</button>
+  <button onclick="adminTab('AI yordamchi',this)">✧ AI</button>
+  <button onclick="adminTab('Sozlamalar',this)">⚙ Sozlamalar</button>
+ </nav>
+ <section class="glass" id="adminWorkspace" style="padding:22px;border-radius:23px;margin-top:15px;min-height:260px"></section>
+</main><nav class="bottom-nav" id="customerNav">
+ <button class="nav-item active" data-page="homePage" onclick="goPage('homePage','home')"><span class="nav-icon">⌂</span><span>Asosiy</span></button>
+ <button class="nav-item" data-page="searchPage" onclick="goPage('searchPage','search')"><span class="nav-icon">⌕</span><span>Qidiruv</span></button>
+ <button class="nav-item" data-page="cartPage" onclick="goPage('cartPage','cart')"><span class="nav-icon">♧</span><span>Savat</span><span class="dot" id="cartBadge" style="display:none">0</span></button>
+ <button class="nav-item" data-page="profilePage" onclick="goPage('profilePage','profile')"><span class="nav-icon">♙</span><span>Profil</span></button>
+</nav>
+
+<nav class="bottom-nav" id="adminNav" style="display:none">
+ <button class="nav-item active" onclick="adminTab('Dashboard',this)"><span class="nav-icon">⌂</span><span>Asosiy</span></button>
+ <button class="nav-item" onclick="adminTab('Smena',this)"><span class="nav-icon">◷</span><span>Smena</span></button>
+ <button class="nav-item" onclick="adminTab('Kassa',this)"><span class="nav-icon">▣</span><span>Kassa</span></button>
+ <button class="nav-item" onclick="adminTab('Tovarlar',this)"><span class="nav-icon">◇</span><span>Tovarlar</span></button>
+</nav>
+
+<script>
+const products=[
+{id:1,name:"Recon Headphones",price:249000,icon:"🎧",category:"Elektronika"},
+{id:2,name:"Smart Watch",price:399000,icon:"⌚",category:"Elektronika"},
+{id:3,name:"Urban Backpack",price:189000,icon:"🎒",category:"Aksessuarlar"},
+{id:4,name:"Wireless Mouse",price:99000,icon:"🖱️",category:"Elektronika"},
+{id:5,name:"Gaming Keyboard",price:329000,icon:"⌨️",category:"Elektronika"},
+{id:6,name:"Street Sneakers",price:459000,icon:"👟",category:"Kiyim"}
+];
+let cart=[],orders=0,cash=0,shift=false,isAdmin=false;
+const money=n=>new Intl.NumberFormat("uz-UZ").format(n)+" so‘m";
+const byId=id=>document.getElementById(id);
+
+function notify(text){
+ const old=document.querySelector(".notice");if(old)old.remove();
+ const el=document.createElement("div");el.className="notice";el.textContent="✦ "+text;document.body.appendChild(el);
+ setTimeout(()=>el.remove(),2600);
+}
+function card(p,i){return <article class="product glass" style="animation-delay:${i*45}ms"><div class="product-art">${p.icon}</div><small>${p.category}</small><h3>${p.name}</h3><div class="price">${money(p.price)}</div><button class="add" onclick="addCart(${p.id})">＋ Savatga</button></article>}
+function renderHome(){byId("homeProducts").innerHTML=products.slice(0,4).map(card).join("")}
+function renderSearch(){
+ const q=byId("searchInput").value.trim().toLowerCase();
+ const filtered=products.filter(p=>(p.name+" "+p.category).toLowerCase().includes(q));
+ byId("searchProducts").innerHTML=filtered.length?filtered.map(card).join(""):<div class="empty glass" style="grid-column:1/-1">🔎<p>Mahsulot topilmadi</p></div>;
+ byId("resultCount").textContent=filtered.length+" ta mahsulot";
+}
+function goPage(id,nav){
+ document.querySelectorAll("#customerApp .page").forEach(p=>p.classList.remove("active"));
+ byId(id).classList.add("active");
+ document.querySelectorAll("#customerNav .nav-item").forEach(b=>b.classList.toggle("active",b.dataset.page===id));
+ if(id==="cartPage")renderCart();
+ if(id==="searchPage"){renderSearch();setTimeout(()=>byId("searchInput").focus({preventScroll:true}),100)}
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+function addCart(id){cart.push(products.find(p=>p.id===id));renderBadge();notify("Savatga qo‘shildi")}
+function renderBadge(){const b=byId("cartBadge");b.textContent=cart.length;b.style.display=cart.length?"grid":"none"}
+function renderCart(){
+ const box=byId("cartItems");
+ if(!cart.length){box.innerHTML='<div class="empty"><div style="font-size:48px">🛍️</div><h3>Savatingiz hozircha bo‘sh</h3><p class="muted">Mahsulotlarni tanlab, shu yerda ko‘ring.</p><button class="primary" onclick="goPage(\'homePage\')">Xarid qilish</button></div>'}else{box.innerHTML=cart.map((p,i)=><div class="list-item"><div class="item-icon">${p.icon}</div><div style="flex:1;min-width:0"><b>${p.name}</b><div class="muted">${money(p.price)}</div></div><button class="mode" onclick="removeCart(${i})">✕</button></div>).join("")}
+ byId("cartTotal").textContent=money(cart.reduce((s,p)=>s+p.price,0));
+}
+function removeCart(i){cart.splice(i,1);renderBadge();renderCart()}
+function checkout(){if(!cart.length)return notify("Avval mahsulot tanlang");orders++;cart=[];renderBadge();renderCart();updateStats();byId("profileOrders").textContent=orders+" ta demo buyurtma";notify("Demo buyurtma yaratildi")}
+function updateStats(){byId("adminOrders").textContent=orders;byId("adminCash").textContent=money(cash);byId("adminShift").textContent=shift?"Ochiq":"Yopiq"}
+function toggleRole(){
+ isAdmin=!isAdmin;byId("customerApp").style.display=isAdmin?"none":"block";byId("adminApp").style.display=isAdmin?"block":"none";
+ byId("customerNav").style.display=isAdmin?"none":"grid";byId("adminNav").style.display=isAdmin?"grid":"none";
+ byId("modeButton").textContent=isAdmin?"🛍 Mijoz ko‘rinishi":"⚡ Admin demo";
+ window.scrollTo({top:0,behavior:"smooth"});
+ if(isAdmin)adminTab("Dashboard",byId("adminMenu").querySelector("button"));
+}
+function adminTab(tab,button){
+ document.querySelectorAll("#adminMenu button,#adminNav button").forEach(b=>b.classList.remove("active"));
+ if(button)button.classList.add("active");
+ const w=byId("adminWorkspace");
+ if(tab==="Dashboard")w.innerHTML="<h2>Dashboard</h2><p class='muted'>RECON MARKET boshqaruv markazi.</p><div class='glass' style='padding:17px;border-radius:16px;margin-top:18px'>✦ Tizim ishlayapti <span style='color:#67e8f9'>● Demo</span><p class='muted'>Kassa va smena ma’lumotlari hozircha haqiqiy serverda saqlanmaydi.</p></div>";
+ if(tab==="Smena")w.innerHTML=<h2>◷ Smena</h2><p class="muted">Joriy holat: ${shift?"Ochiq":"Yopiq"}</p><button class="primary" onclick="shift=!shift;updateStats();adminTab('Smena');notify(shift?'Demo smena ochildi':'Demo smena yopildi')">${shift?"Smenani yopish":"Smenani ochish"}</button>;
+ if(tab==="Kassa")w.innerHTML=<h2>▣ Kassa</h2><p class="muted">Demo kirim</p><input class="field" id="cashInput" type="number" min="1" placeholder="Summa, UZS"><br><button class="primary" onclick="addCash()">Kirim qo‘shish</button><p class="muted">Jami: ${money(cash)}</p>;
+ if(tab==="Tovarlar")w.innerHTML="<h2>◇ Tovarlar</h2>"+products.map(p=><div class="list-item"><div class="item-icon">${p.icon}</div><div style="flex:1">${p.name}<div class="muted">${p.category}</div></div><b style="color:var(--cyan);font-size:12px">${money(p.price)}</b></div>).join("");
+ if(tab==="AI yordamchi")w.innerHTML=<h2>✧ AI yordamchi</h2><p class="muted">AI API hali ulanmagan.</p><input class="field" id="aiInput" placeholder="Savolingiz..."><br><button class="primary" onclick="askAI()">Savol yuborish</button><p id="aiAnswer" class="muted"></p>;
+ if(tab==="Sozlamalar")w.innerHTML="<h2>⚙ Sozlamalar</h2><p class='muted'>RECON MARKET · Liquid Glass</p><p>Interfeys: Neon Purple + Cyan</p><p>Holat: Demo</p>";
+}
+function addCash(){const n=Number(byId("cashInput")?.value);if(!Number.isFinite(n)||n<=0)return notify("Summani to‘g‘ri kiriting");cash+=n;updateStats();adminTab("Kassa");notify("Demo kirim qo‘shildi")}
+function askAI(){const q=byId("aiInput").value.trim();if(!q)return notify("Savol yozing");byId("aiAnswer").textContent="Demo: AI javobi uchun himoyalangan server orqali AI xizmatini ulash kerak."}
+renderHome();renderSearch();renderCart();updateStats();
+</script>
+</body>
+</html>
